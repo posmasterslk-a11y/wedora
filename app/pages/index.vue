@@ -77,14 +77,6 @@
           <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-white">No invitations</h3>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new wedding invitation.</p>
           
-          <!-- EXTREME DEBUGGING OUTPUT -->
-          <div class="mt-8 p-4 bg-gray-100 text-left rounded overflow-auto text-xs text-red-600 font-mono">
-            <strong>DEBUG INFO:</strong><br/>
-            User ID: {{ user?.id || 'NULL/NOT LOGGED IN' }}<br/>
-            Raw Data from DB: {{ invitations.length }} items<br/>
-            <pre>{{ invitations }}</pre>
-          </div>
-
           <div class="mt-6">
             <router-link to="/invites/create" class="inline-flex items-center rounded-md bg-brand-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">
               <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
