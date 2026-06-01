@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 definePageMeta({
   title: 'Dashboard'
@@ -115,6 +115,12 @@ const { data: invitations, pending } = useAsyncData('invitations', async () => {
   }
   return data
 }, { watch: [user] })
+
+onMounted(() => {
+  if (!invitations.value || invitations.value.length === 0) {
+    refreshNuxtData('invitations')
+  }
+})
 
 const copyLink = (id: string) => {
   const url = `${window.location.origin}/invite/${id}`
