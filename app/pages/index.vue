@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 definePageMeta({
   title: 'Dashboard'
@@ -100,9 +100,16 @@ definePageMeta({
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 
-// Fetch invitations
-const { data: invitations, pending } = useAsyncData('invitations', async () => {
-  if (!user.value) return []
+const invitations = ref<any[]>([])
+const pending = ref(true)
+
+const fetchInvitations = async () => {
+  if (!user.value) {
+    pending.value = false
+    return
+  }
+  
+  pending.value = true
   const { data, error } = await supabase
     .from('invitations')
     .select('*')
@@ -111,15 +118,18 @@ const { data: invitations, pending } = useAsyncData('invitations', async () => {
   
   if (error) {
     console.error('Error fetching invitations', error)
-    return []
+  } else {
+    invitations.value = data || []
   }
-  return data
-}, { watch: [user] })
+  pending.value = false
+}
 
 onMounted(() => {
-  if (!invitations.value || invitations.value.length === 0) {
-    refreshNuxtData('invitations')
-  }
+  fetchInvitations()
+})
+
+watch(user, () => {
+  fetchInvitations()
 })
 
 const copyLink = (id: string) => {

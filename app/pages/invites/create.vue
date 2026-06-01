@@ -163,9 +163,6 @@ const createInvite = async () => {
 
     if (error) throw error
 
-    // Refresh the data so the dashboard updates with the new invitation
-    await refreshNuxtData('invitations')
-
     // Navigate back to dashboard on success
     router.push('/')
   } catch (error: any) {
