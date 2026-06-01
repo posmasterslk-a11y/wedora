@@ -119,18 +119,13 @@ const fetchInvitations = async () => {
   const { data, error } = await supabase
     .from('invitations')
     .select('*')
+    .eq('user_id', user.value.id)
     .order('created_at', { ascending: false })
   
   if (error) {
     console.error('Error fetching invitations', error)
   } else {
-    // Fallback filter in JS just in case Supabase user_id is behaving weirdly
-    invitations.value = data ? data.filter(inv => inv.user_id === user.value.id) : []
-    
-    if (invitations.value.length === 0 && data && data.length > 0) {
-      console.log("WARNING: You have data in the table, but NONE of the user_ids match your user id! Showing all data temporarily to prove it works.")
-      invitations.value = data // Temporarily show all data so the user can see it's working
-    }
+    invitations.value = data || []
   }
   pending.value = false
 }
