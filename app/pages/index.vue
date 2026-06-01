@@ -106,6 +106,7 @@ const { data: invitations, pending } = useAsyncData('invitations', async () => {
   const { data, error } = await supabase
     .from('invitations')
     .select('*')
+    .eq('user_id', user.value.id)
     .order('created_at', { ascending: false })
   
   if (error) {
