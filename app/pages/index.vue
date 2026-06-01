@@ -119,6 +119,7 @@ const fetchInvitations = async () => {
   if (error) {
     console.error('Error fetching invitations', error)
   } else {
+    console.log("FETCHED INVITATIONS SUCCESS:", data?.length, "for user:", user.value?.id)
     invitations.value = data || []
   }
   pending.value = false

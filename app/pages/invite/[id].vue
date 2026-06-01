@@ -234,7 +234,11 @@ const openInvitation = () => {
 }
 
 // Fetch Invitation Data
-const { data: invite, pending } = useAsyncData('invite', async () => {
+const invite = ref<any>(null)
+const pending = ref(true)
+
+const fetchInvite = async () => {
+  pending.value = true
   const { data, error } = await supabase
     .from('invitations')
     .select('*')
@@ -243,9 +247,14 @@ const { data: invite, pending } = useAsyncData('invite', async () => {
   
   if (error) {
     console.error('Error fetching invitation:', error)
-    return null
+  } else {
+    invite.value = data
   }
-  return data
+  pending.value = false
+}
+
+onMounted(() => {
+  fetchInvite()
 })
 
 // Formatting Dates
