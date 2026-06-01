@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 definePageMeta({
   title: 'Dashboard'
@@ -104,7 +104,7 @@ const invitations = ref<any[]>([])
 const pending = ref(true)
 
 const fetchInvitations = async () => {
-  if (!user.value) {
+  if (!user.value || !user.value.id) {
     pending.value = false
     return
   }
@@ -119,18 +119,15 @@ const fetchInvitations = async () => {
   if (error) {
     console.error('Error fetching invitations', error)
   } else {
-    console.log("FETCHED INVITATIONS SUCCESS:", data?.length, "for user:", user.value?.id)
     invitations.value = data || []
   }
   pending.value = false
 }
 
-onMounted(() => {
-  fetchInvitations()
-})
-
-watch(user, () => {
-  fetchInvitations()
+watchEffect(() => {
+  if (user.value) {
+    fetchInvitations()
+  }
 })
 
 const copyLink = (id: string) => {
