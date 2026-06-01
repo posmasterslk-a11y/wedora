@@ -107,18 +107,23 @@ definePageMeta({
 })
 
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
+const user = ref<any>(null)
 
 const invitations = ref<any[]>([])
 const pending = ref(true)
 
 const fetchInvitations = async () => {
+  pending.value = true
+  
+  // DIRECTLY fetch the user from the Supabase client, bypassing Nuxt's reactive object which seems to drop randomly
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  user.value = currentUser
+  
   if (!user.value || !user.value.id) {
     pending.value = false
     return
   }
   
-  pending.value = true
   const { data, error } = await supabase
     .from('invitations')
     .select('*')
@@ -127,9 +132,6 @@ const fetchInvitations = async () => {
   if (error) {
     console.error('Error fetching invitations', error)
   } else {
-    console.log("RAW DB DATA:", data)
-    console.log("MY USER ID:", user.value.id)
-    
     // Fallback filter in JS just in case Supabase user_id is behaving weirdly
     invitations.value = data ? data.filter(inv => inv.user_id === user.value.id) : []
     
@@ -141,10 +143,8 @@ const fetchInvitations = async () => {
   pending.value = false
 }
 
-watchEffect(() => {
-  if (user.value) {
-    fetchInvitations()
-  }
+onMounted(() => {
+  fetchInvitations()
 })
 
 const copyLink = (id: string) => {
