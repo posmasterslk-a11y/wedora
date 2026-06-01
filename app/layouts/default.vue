@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Loader from '~/components/Common/Loader.vue'
+import Loader from '~/components/common/Loader.vue'
 
 const loading = ref(false)
 const nuxtApp = useNuxtApp()
