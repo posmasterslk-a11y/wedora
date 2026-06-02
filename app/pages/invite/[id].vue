@@ -65,7 +65,7 @@
       <div class="absolute bottom-4 right-4 w-28 h-28 text-[#c5a85c]/40 pointer-events-none transform rotate-180"><svg viewBox="0 0 100 100" class="w-full h-full fill-current"><path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" /><path d="M 0 0 C 20 5 35 20 40 40 C 30 35 5 25 0 0" /><circle cx="20" cy="20" r="2" /><circle cx="10" cy="30" r="1.5" /><circle cx="30" cy="10" r="1.5" /></svg></div>
 
       <div class="relative z-10 w-full flex flex-col items-center" :class="isOpenedFully ? 'animate-fade-in-up' : 'opacity-0'">
-        <h3 class="font-yatra text-4xl sm:text-5xl text-[#c5a85c] drop-shadow-sm mb-8 tracking-wider">{{ sinhalaData.sub_title }}</h3>
+        <h3 class="font-yatra text-4xl sm:text-5xl text-[#c5a85c] drop-shadow-sm mb-8 tracking-wider text-center w-full">{{ sinhalaData.sub_title }}</h3>
         
         <div class="mb-4 max-w-lg">
           <p class="font-sinhala-serif text-base sm:text-lg leading-relaxed text-[#5c4a37]">{{ sinhalaData.bride_parents }}</p>
