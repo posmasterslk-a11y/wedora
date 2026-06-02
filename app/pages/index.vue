@@ -15,7 +15,7 @@
       
       <!-- List of Invites -->
       <div class="mt-8 flow-root">
-        <div v-if="pending" class="text-center py-10 text-gray-500">Loading your invitations...</div>
+        <div v-if="pending" class="text-center py-10 text-gray-500 animate-pulse">Loading your invitations...</div>
         <div v-else-if="invitations && invitations.length > 0" class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -45,18 +45,40 @@
                       {{ invite.location }}
                     </td>
                     <td class="block sm:table-cell relative whitespace-nowrap py-4 sm:py-4 pl-0 sm:pl-3 pr-4 text-left sm:text-right text-sm font-medium sm:pr-6 mt-2 sm:mt-0 border-t border-gray-100 dark:border-gray-800 sm:border-0">
+                      
+                      <!-- View RSVPs -->
                       <router-link :to="'/invites/' + invite.id + '/rsvps'" class="text-gray-500 hover:text-brand-500 transition-colors mr-4 inline-flex items-center" title="View RSVPs">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                         <span class="sm:hidden">RSVPs</span>
                       </router-link>
+
+                      <!-- Edit Invite -->
+                      <router-link :to="'/invites/' + invite.id + '/edit'" class="text-gray-500 hover:text-blue-500 transition-colors mr-4 inline-flex items-center" title="Edit Invitation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="sm:hidden">Edit</span>
+                      </router-link>
+
+                      <!-- Delete Invite -->
+                      <button @click="deleteInvite(invite.id)" class="text-gray-500 hover:text-red-500 transition-colors mr-4 inline-flex items-center" title="Delete Invitation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span class="sm:hidden">Delete</span>
+                      </button>
+
+                      <!-- Copy Link -->
                       <button @click="copyLink(invite.id)" class="text-gray-500 hover:text-gray-900 dark:hover:text-white mr-4 transition-colors inline-flex items-center" :title="'Copy Link'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                         </svg>
                         <span class="sm:hidden">Copy</span>
                       </button>
+
+                      <!-- Open Link -->
                       <a :href="'/invite/' + invite.id" target="_blank" class="text-brand-500 hover:text-brand-900 transition-colors inline-flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -92,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { ref, onMounted } from 'vue'
 
 definePageMeta({
   title: 'Dashboard'
@@ -107,7 +129,6 @@ const pending = ref(true)
 const fetchInvitations = async () => {
   pending.value = true
   
-  // DIRECTLY fetch the user from the Supabase client, bypassing Nuxt's reactive object which seems to drop randomly
   const { data: { user: currentUser } } = await supabase.auth.getUser()
   user.value = currentUser
   
@@ -141,4 +162,21 @@ const copyLink = (id: string) => {
     .catch(err => console.error('Failed to copy: ', err))
 }
 
+const deleteInvite = async (id: string) => {
+  if (!confirm("Are you sure you want to delete this invitation? All associated RSVPs will also be permanently deleted.")) return
+  
+  try {
+    const { error } = await supabase
+      .from('invitations')
+      .delete()
+      .eq('id', id)
+      
+    if (error) throw error
+    alert("Invitation deleted successfully!")
+    await fetchInvitations() // Refresh the list
+  } catch (error: any) {
+    console.error('Error deleting invitation:', error)
+    alert('Error deleting invitation: ' + error.message)
+  }
+}
 </script>
