@@ -11,14 +11,14 @@
         <!-- Template Selector -->
         <div>
           <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Select Invitation Template</label>
-          <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <!-- Modern Arch -->
             <label class="relative flex cursor-pointer rounded-lg border bg-white dark:bg-gray-700 p-4 shadow-sm focus:outline-none" :class="[selectedTemplate === 'modern' ? 'border-brand-500 ring-2 ring-brand-500' : 'border-gray-300 dark:border-gray-600']">
               <input type="radio" v-model="selectedTemplate" value="modern" class="sr-only" />
               <span class="flex flex-1">
                 <span class="flex flex-col">
-                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Modern Arch Template</span>
-                  <span class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">Sleek, image-focused contemporary layout with modern typography and sliding door animation.</span>
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Modern Arch</span>
+                  <span class="mt-1 flex items-center text-[10px] text-gray-500 dark:text-gray-400">Sleek navy-blue & gold laser-cut lace template with elegant contemporary typography.</span>
                 </span>
               </span>
               <span class="flex h-5 items-center" v-if="selectedTemplate === 'modern'">
@@ -33,8 +33,8 @@
               <input type="radio" v-model="selectedTemplate" value="sinhala" class="sr-only" />
               <span class="flex flex-1">
                 <span class="flex flex-col">
-                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Traditional Sinhala Card</span>
-                  <span class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">Premium gold-pressed look with traditional Sinhala fonts, custom parent details, date box, and Kandyan couple illustration.</span>
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Traditional Sinhala</span>
+                  <span class="mt-1 flex items-center text-[10px] text-gray-500 dark:text-gray-400">Premium gold-pressed look with Noto Sinhala fonts, custom parents' details, and Kandyan couple illustration.</span>
                 </span>
               </span>
               <span class="flex h-5 items-center" v-if="selectedTemplate === 'sinhala'">
@@ -43,14 +43,29 @@
                 </span>
               </span>
             </label>
+
+            <!-- Golden Rich (Rustic Wreath & Hanging Calendar Tag) -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white dark:bg-gray-700 p-4 shadow-sm focus:outline-none" :class="[selectedTemplate === 'golden_rich' ? 'border-brand-500 ring-2 ring-brand-500' : 'border-gray-300 dark:border-gray-600']">
+              <input type="radio" v-model="selectedTemplate" value="golden_rich" class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Golden Rich (Rustic)</span>
+                  <span class="mt-1 flex items-center text-[10px] text-gray-500 dark:text-gray-400">Exquisite rustic wreath design tied with jute twine coir rope and a custom heart-marked calendar tag.</span>
+                </span>
+              </span>
+              <span class="flex h-5 items-center" v-if="selectedTemplate === 'golden_rich'">
+                <span class="h-4 w-4 rounded-full bg-brand-500 flex items-center justify-center">
+                  <span class="h-2 w-2 rounded-full bg-white"></span>
+                </span>
+              </span>
+            </label>
           </div>
         </div>
 
-        <!-- Dynamic Template Fields -->
+        <!-- Traditional Sinhala Fields -->
         <div v-if="selectedTemplate === 'sinhala'" class="space-y-6 border-t border-gray-100 dark:border-gray-700 pt-6">
           <h2 class="text-lg font-medium text-gray-900 dark:text-white">Traditional Sinhala Card Details</h2>
           
-          <!-- Sinhala Title / Greeting -->
           <div>
             <label for="sinhala_title" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Greeting Header (ආරාධනා ශීර්ෂය)</label>
             <div class="mt-2">
@@ -59,7 +74,6 @@
           </div>
 
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <!-- Bride's Parents -->
             <div>
               <label for="bride_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Bride's Parents (මනාලියගේ මව්පියන්)</label>
               <div class="mt-2">
@@ -67,7 +81,6 @@
               </div>
             </div>
 
-            <!-- Groom's Parents -->
             <div>
               <label for="groom_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Groom's Parents (මනාලයාගේ මව්පියන්)</label>
               <div class="mt-2">
@@ -77,7 +90,6 @@
           </div>
 
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <!-- Bride Name -->
             <div>
               <label for="bride_name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Bride's Name (මනාලියගේ නම)</label>
               <div class="mt-2">
@@ -85,7 +97,6 @@
               </div>
             </div>
 
-            <!-- Groom Name -->
             <div>
               <label for="groom_name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Groom's Name (මනාලයාගේ නම)</label>
               <div class="mt-2">
@@ -94,7 +105,6 @@
             </div>
           </div>
 
-          <!-- Poruwa time & custom invitation note -->
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label for="poruwa_time" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Poruwa Ceremony Time (පෝරුවේ චාරිත්‍ර වේලාව - Optional)</label>
@@ -115,6 +125,41 @@
             <label for="invite_note" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Custom Invitation Note (ආරාධනා වැකිය)</label>
             <div class="mt-2">
               <input v-model="sinhalaForm.invite_note" type="text" id="invite_note" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ඔබට/ඔබ දෙපලට/ඔබ සැමට සෙනෙහසින් ඇරයුම් කරමු." required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Golden Rich Custom Fields -->
+        <div v-if="selectedTemplate === 'golden_rich'" class="space-y-6 border-t border-gray-100 dark:border-gray-700 pt-6">
+          <h2 class="text-lg font-medium text-gray-900 dark:text-white">Golden Rich (Rustic) Card Details</h2>
+          
+          <div>
+            <label for="rich_names" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Couple Names (Calligraphy Wreath)</label>
+            <div class="mt-2">
+              <input v-model="richForm.couple_names" type="text" id="rich_names" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Sakuni & Anuka" required />
+            </div>
+          </div>
+
+          <div>
+            <label for="rich_invite_text" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Wedding Invitation Line</label>
+            <div class="mt-2">
+              <input v-model="richForm.invite_text" type="text" id="rich_invite_text" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Together with their families, invite you to celebrate their wedding" required />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <label for="rich_rsvp_by" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">RSVP Deadline</label>
+              <div class="mt-2">
+                <input v-model="richForm.rsvp_by" type="text" id="rich_rsvp_by" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., KINDLY RSVP BY 10TH AUGUST 2026" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="rich_dress_code" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Special Note / Dress Code (Optional)</label>
+              <div class="mt-2">
+                <input v-model="richForm.dress_code" type="text" id="rich_dress_code" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Dress Code: Soft Pastels / Smart Casual" />
+              </div>
             </div>
           </div>
         </div>
@@ -142,9 +187,9 @@
 
             <!-- Location -->
             <div>
-              <label for="location" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Venue / Location Name (Sinhala or English)</label>
+              <label for="location" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Venue / Location Name</label>
               <div class="mt-2">
-                <input v-model="form.location" type="text" name="location" id="location" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., දූලපතීය සෙවෝන්ලැක් උත්සව ශාලාවේ දී" required />
+                <input v-model="form.location" type="text" name="location" id="location" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Rajahala Resort, Ratnapura" required />
               </div>
             </div>
           </div>
@@ -211,7 +256,7 @@ const user = useSupabaseUser()
 const router = useRouter()
 
 const loading = ref(false)
-const selectedTemplate = ref('modern') // 'modern' or 'sinhala'
+const selectedTemplate = ref('modern') // 'modern', 'sinhala', 'golden_rich'
 
 const themes = [
   { id: 'rose', name: 'Rose Gold', bgClass: 'bg-[#b76e79]', hex: '#b76e79' },
@@ -239,6 +284,13 @@ const sinhalaForm = reactive({
   poruwa_time: '',
   invite_note: 'ඔබට/ඔබ දෙපලට/ඔබ සැමට සෙනෙහසින් ඇරයුම් කරමු.',
   rsvp_contact: ''
+})
+
+const richForm = reactive({
+  couple_names: '',
+  invite_text: 'Together with their families, invite you to celebrate their wedding',
+  rsvp_by: 'KINDLY RSVP BY 10TH AUGUST',
+  dress_code: ''
 })
 
 const uploadingImage = ref(false)
@@ -270,7 +322,6 @@ const handleFileUpload = async (event: any) => {
 }
 
 const createInvite = async () => {
-  // Ensure user is loaded
   const { data: { user: currentUser } } = await supabase.auth.getUser()
   if (!currentUser) {
     alert("You must be logged in to create an invitation.")
@@ -284,7 +335,6 @@ const createInvite = async () => {
     let comments = form.special_comments
     let themeColor = form.theme_color
 
-    // If traditional Sinhala is selected, construct payload
     if (selectedTemplate.value === 'sinhala') {
       coupleNames = `${sinhalaForm.bride_name} & ${sinhalaForm.groom_name}`
       themeColor = `${form.theme_color}_sinhala`
@@ -301,6 +351,18 @@ const createInvite = async () => {
         rsvp_contact: sinhalaForm.rsvp_contact
       }
       comments = JSON.stringify(payload)
+    } else if (selectedTemplate.value === 'golden_rich') {
+      coupleNames = richForm.couple_names
+      themeColor = `${form.theme_color}_rich`
+      
+      const payload = {
+        is_golden_rich: true,
+        couple_names: richForm.couple_names,
+        invite_text: richForm.invite_text,
+        rsvp_by: richForm.rsvp_by,
+        dress_code: richForm.dress_code
+      }
+      comments = JSON.stringify(payload)
     }
 
     const { data, error } = await supabase.from('invitations').insert({
@@ -311,12 +373,11 @@ const createInvite = async () => {
       map_url: form.map_url,
       special_comments: comments,
       theme_color: themeColor,
-      image_url: selectedTemplate.value === 'sinhala' ? '' : form.image_url
+      image_url: form.image_url
     }).select().single()
 
     if (error) throw error
 
-    // Navigate back to dashboard on success
     router.push('/')
   } catch (error: any) {
     console.error('Error creating invitation', error)
@@ -326,4 +387,3 @@ const createInvite = async () => {
   }
 }
 </script>
-
