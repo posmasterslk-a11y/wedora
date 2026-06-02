@@ -18,6 +18,289 @@
     </div>
   </div>
 
+  <!-- Traditional Sinhala Invitation Template -->
+  <main v-else-if="isSinhala" class="min-h-screen font-sinhala-sans bg-[#fbf9f4] text-[#3c3220] relative flex items-center justify-center py-10 px-4">
+    
+    <!-- Premium Envelope / Door Opening Animation -->
+    <div v-if="!isOpenedFully" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/40 backdrop-blur-sm" :class="{'pointer-events-none': opening}">
+      <!-- Left Door -->
+      <div 
+        class="absolute inset-y-0 left-0 w-1/2 bg-[#faf6ee] border-r border-[#c5a85c]/30 shadow-2xl flex items-center justify-end pr-1 transition-all duration-[1200ms] ease-out-cubic origin-left"
+        :style="opening ? 'transform: perspective(1200px) rotateY(-100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+      >
+        <div class="w-px h-1/2 bg-[#c5a85c]/20"></div>
+      </div>
+      
+      <!-- Right Door -->
+      <div 
+        class="absolute inset-y-0 right-0 w-1/2 bg-[#faf6ee] border-l border-[#c5a85c]/30 shadow-2xl flex items-center justify-start pl-1 transition-all duration-[1200ms] ease-out-cubic origin-right"
+        :style="opening ? 'transform: perspective(1200px) rotateY(100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+      >
+        <div class="w-px h-1/2 bg-[#c5a85c]/20"></div>
+      </div>
+      
+      <!-- Center Seal / Tap to Open -->
+      <div 
+        @click="openInvitation" 
+        class="relative z-10 flex flex-col items-center justify-center cursor-pointer group transition-all duration-700 ease-in-out"
+        :class="opening ? 'opacity-0 scale-150 rotate-12 blur-sm' : 'opacity-100 scale-100 rotate-0'"
+      >
+        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#c5a85c] text-white flex items-center justify-center shadow-[0_10px_30px_rgba(197,168,92,0.3)] group-hover:scale-110 transition-transform duration-300 border-4 border-white/80">
+          <span class="font-yatra text-4xl sm:text-5xl shadow-sm">{{ initials }}</span>
+        </div>
+        <p class="mt-6 text-[#c5a85c] font-sinhala-serif font-semibold tracking-[0.2em] uppercase text-sm sm:text-base animate-pulse group-hover:animate-none">ඇරයුම් පත විවෘත කරන්න</p>
+      </div>
+    </div>
+
+    <!-- Invitation Card Layout -->
+    <div class="relative w-full max-w-2xl min-h-screen py-16 px-6 sm:px-12 bg-[#fefcf9] border-[12px] border-double border-[#c5a85c]/40 shadow-2xl overflow-hidden flex flex-col items-center text-center">
+      
+      <!-- Gold Pressed Decorative Corner Ornaments -->
+      <div class="absolute top-4 left-4 w-28 h-28 text-[#c5a85c]/40 pointer-events-none">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+          <path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" />
+          <path d="M 0 0 C 20 5 35 20 40 40 C 30 35 5 25 0 0" />
+          <circle cx="20" cy="20" r="2" />
+          <circle cx="10" cy="30" r="1.5" />
+          <circle cx="30" cy="10" r="1.5" />
+        </svg>
+      </div>
+      <div class="absolute top-4 right-4 w-28 h-28 text-[#c5a85c]/40 pointer-events-none transform rotate-90">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+          <path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" />
+          <path d="M 0 0 C 20 5 35 20 40 40 C 30 35 5 25 0 0" />
+          <circle cx="20" cy="20" r="2" />
+          <circle cx="10" cy="30" r="1.5" />
+          <circle cx="30" cy="10" r="1.5" />
+        </svg>
+      </div>
+      <div class="absolute bottom-4 left-4 w-28 h-28 text-[#c5a85c]/40 pointer-events-none transform -rotate-90">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+          <path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" />
+          <path d="M 0 0 C 20 5 35 20 40 40 C 30 35 5 25 0 0" />
+          <circle cx="20" cy="20" r="2" />
+          <circle cx="10" cy="30" r="1.5" />
+          <circle cx="30" cy="10" r="1.5" />
+        </svg>
+      </div>
+      <div class="absolute bottom-4 right-4 w-28 h-28 text-[#c5a85c]/40 pointer-events-none transform rotate-180">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+          <path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" />
+          <path d="M 0 0 C 20 5 35 20 40 40 C 30 35 5 25 0 0" />
+          <circle cx="20" cy="20" r="2" />
+          <circle cx="10" cy="30" r="1.5" />
+          <circle cx="30" cy="10" r="1.5" />
+        </svg>
+      </div>
+
+      <!-- Main Content Block -->
+      <div class="relative z-10 w-full flex flex-col items-center" :class="isOpenedFully ? 'animate-fade-in-up' : 'opacity-0'">
+        
+        <!-- Subtitle Header -->
+        <h3 class="font-yatra text-4xl sm:text-5xl text-[#c5a85c] drop-shadow-sm mb-8 tracking-wider">
+          {{ sinhalaData.sub_title || 'ශ්‍රී සුභ මංගලම්....!' }}
+        </h3>
+
+        <!-- Bride Parents Section -->
+        <div class="mb-4 max-w-lg">
+          <p class="font-sinhala-serif text-base sm:text-lg leading-relaxed text-[#5c4a37]">
+            {{ sinhalaData.bride_parents }}
+          </p>
+          <span class="block text-xs font-sinhala-serif text-[#c5a85c] uppercase tracking-widest mt-1">ආදරණීය දියණිය</span>
+        </div>
+
+        <!-- Bride Name -->
+        <h1 class="font-yatra text-4xl sm:text-5xl my-3 text-[#b08b35] drop-shadow-sm border-b-2 border-double border-[#c5a85c]/30 px-6 pb-2">
+          {{ sinhalaData.bride_name }}
+        </h1>
+
+        <!-- Joining Word -->
+        <p class="font-sinhala-serif text-sm sm:text-base italic my-4 text-[#8a7258]">
+          සමග අතිනත ගැනීමේ ප්‍රීතිය නිමිත්තෙන්
+        </p>
+
+        <!-- Groom Parents Section -->
+        <div class="mb-4 max-w-lg">
+          <p class="font-sinhala-serif text-base sm:text-lg leading-relaxed text-[#5c4a37]">
+            {{ sinhalaData.groom_parents }}
+          </p>
+          <span class="block text-xs font-sinhala-serif text-[#c5a85c] uppercase tracking-widest mt-1">ආදරණීය පුතණුවන්</span>
+        </div>
+
+        <!-- Groom Name -->
+        <h1 class="font-yatra text-4xl sm:text-5xl my-3 text-[#b08b35] drop-shadow-sm border-b-2 border-double border-[#c5a85c]/30 px-6 pb-2">
+          {{ sinhalaData.groom_name }}
+        </h1>
+
+        <!-- Joining Invitation word -->
+        <p class="font-sinhala-serif text-sm sm:text-base text-[#5c4a37] mb-8 font-semibold">
+          සමඟ අතිනත ගැනීමේ ප්‍රීතිය නිමිත්තෙන්
+        </p>
+
+        <!-- Gold Date Box (Sri Lankan Card Style) -->
+        <div class="w-72 sm:w-80 border-y border-[#c5a85c] py-4 my-6 relative flex flex-col items-center">
+          <p class="font-sinhala-serif text-[#b08b35] font-semibold text-lg tracking-widest mb-1">{{ sinhalaMonth }}</p>
+          <div class="flex items-center justify-center gap-6 w-full">
+            <span class="font-sinhala-serif text-sm sm:text-base text-[#8a7258] border-r border-[#c5a85c]/30 pr-4">{{ sinhalaDayOfWeek }}</span>
+            <span class="font-yatra text-5xl sm:text-6xl text-[#b08b35] font-bold drop-shadow-sm px-2">{{ eventDateObj.getDate() }}</span>
+            <span class="font-sinhala-serif text-sm sm:text-base text-[#8a7258] border-l border-[#c5a85c]/30 pl-4">{{ eventDateObj.getFullYear() }}</span>
+          </div>
+        </div>
+
+        <!-- Event Times -->
+        <div class="my-6">
+          <p class="font-sinhala-serif text-base sm:text-lg text-[#5c4a37] font-semibold leading-relaxed">
+            පෙ.ව. {{ formattedSinhalaTime }} සිට ප.ව. {{ formattedEndTime }} දක්වා
+          </p>
+          <!-- Poruwa time -->
+          <p v-if="sinhalaData.poruwa_time" class="font-sinhala-serif text-sm sm:text-base italic text-[#c5a85c] mt-2 font-medium bg-[#c5a85c]/5 px-4 py-1.5 rounded-full border border-[#c5a85c]/20">
+            ({{ sinhalaData.poruwa_time }})
+          </p>
+        </div>
+
+        <!-- Venue / Location Box -->
+        <div class="my-8 max-w-lg p-6 bg-[#FAF6EE] border border-[#c5a85c]/30 rounded-xl shadow-sm w-full">
+          <div class="w-10 h-10 mx-auto text-[#c5a85c] mb-3">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h4 class="font-sinhala-serif text-sm text-[#c5a85c] uppercase tracking-widest mb-1 font-semibold">උත්සව ශාලාව</h4>
+          <p class="font-sinhala-serif text-lg text-[#5c4a37] font-semibold leading-relaxed">
+            {{ invite.location }}
+          </p>
+          <div class="mt-4" v-if="invite.map_url">
+            <a :href="invite.map_url" target="_blank" class="inline-flex items-center justify-center px-5 py-2 text-xs font-semibold text-white bg-[#b08b35] hover:bg-[#9a7525] rounded-full shadow transition-colors">
+              සිතියම බලන්න (Open in Maps)
+            </a>
+          </div>
+        </div>
+
+        <!-- Custom Invite Note -->
+        <p class="font-sinhala-serif text-base sm:text-lg italic text-[#8a7258] my-4 leading-relaxed font-medium">
+          " {{ sinhalaData.invite_note || 'ඔබට/ඔබ දෙපලට/ඔබ සැමට සෙනෙහසින් ඇරයුම් කරමු.' }} "
+        </p>
+
+        <!-- Elegant Sri Lankan Cartoon Couple Illustration -->
+        <div class="relative w-full py-8 flex items-center justify-center gap-12 mt-6">
+          <div class="w-64 h-36 relative flex items-center justify-center">
+            <!-- Custom Premium SVG Kandyan Couple & Heart Ring Illustration -->
+            <svg viewBox="0 0 300 160" class="w-full h-full text-[#b08b35]">
+              <!-- Left: Kandyan Groom Outline style -->
+              <g transform="translate(10, 10) scale(0.6)">
+                <!-- Groom Mul Anduma crown -->
+                <path d="M 50 10 L 80 40 L 20 40 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                <circle cx="50" cy="20" r="3" fill="currentColor"/>
+                <path d="M 35 40 L 65 40" stroke="currentColor" stroke-width="3"/>
+                <!-- Face -->
+                <circle cx="50" cy="55" r="15" fill="none" stroke="currentColor" stroke-width="3"/>
+                <!-- Jacket Details -->
+                <path d="M 50 70 L 50 120" stroke="currentColor" stroke-width="3"/>
+                <path d="M 25 75 L 50 70 L 75 75 L 85 105 L 50 120 L 15 105 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M 30 120 L 50 120 L 70 120 L 80 150 L 50 160 L 20 150 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+              </g>
+              
+              <!-- Right: Traditional Kandyan Bride (Osariya) Outline -->
+              <g transform="translate(210, 10) scale(0.6)">
+                <!-- Nalalpata Ornament -->
+                <path d="M 30 45 C 30 30 70 30 70 45 Z" fill="currentColor"/>
+                <circle cx="50" cy="30" r="3" fill="currentColor"/>
+                <path d="M 40 33 C 45 38 55 38 60 33" fill="none" stroke="currentColor" stroke-width="2"/>
+                <!-- Face -->
+                <circle cx="50" cy="55" r="15" fill="none" stroke="currentColor" stroke-width="3"/>
+                <!-- Saree & Necklace -->
+                <path d="M 50 70 C 35 75 25 90 25 110 L 75 110 C 75 90 65 75 50 70" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M 30 110 L 20 155 L 80 155 L 70 110 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                <!-- Potta -->
+                <path d="M 38 78 C 30 95 30 125 40 155" fill="none" stroke="currentColor" stroke-width="3"/>
+              </g>
+              
+              <!-- Center: Couple Double-Heart Logo Rings -->
+              <g transform="translate(105, 30)">
+                <!-- Ring 1 -->
+                <path d="M 40 40 C 20 15 0 35 40 70 C 80 35 60 15 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <!-- Ring 2 -->
+                <path d="M 70 40 C 50 15 30 35 70 70 C 110 35 90 15 70 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <!-- Initials -->
+                <text x="32" y="48" font-family="'Yatra One', serif" font-size="16" font-weight="bold" fill="currentColor">{{ initials.charAt(0) }}</text>
+                <text x="62" y="48" font-family="'Yatra One', serif" font-size="16" font-weight="bold" fill="currentColor">{{ initials.length > 1 ? initials.charAt(1) : initials.charAt(0) }}</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- RSVP Form Section -->
+        <div class="w-full mt-10 border-t border-[#c5a85c]/20 pt-10">
+          <h2 class="font-yatra text-3xl mb-4 text-[#b08b35]">RSVP (පිළිතුරු එවන්න)</h2>
+          <p class="font-sinhala-serif text-sm text-[#8a7258] mb-8">කරුණාකර ඔබගේ සහභාගීත්වය අප වෙත දන්වන්න.</p>
+
+          <div v-if="rsvpSubmitted" class="p-8 rounded-2xl bg-white border-2 border-double border-[#c5a85c]/30 shadow-md max-w-md mx-auto">
+            <div class="w-12 h-12 mx-auto text-[#c5a85c] mb-4">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 class="font-sinhala-serif text-xl text-[#5c4a37] font-semibold mb-2">බොහෝම ස්තූතියි!</h3>
+            <p class="font-sinhala-serif text-sm text-[#8a7258]">ඔබගේ ප්‍රතිචාරය සාර්ථකව ලැබුණි. අපි ඔබ එනතුරු බලා සිටිමු!</p>
+          </div>
+
+          <form v-else @submit.prevent="submitRsvp" class="max-w-md mx-auto space-y-5 text-left p-6 sm:p-8 bg-white border border-[#c5a85c]/30 rounded-xl shadow-md relative">
+            <div v-if="submittingRsvp" class="absolute inset-0 z-10 bg-white/80 rounded-xl flex items-center justify-center backdrop-blur-sm">
+              <div class="w-8 h-8 border-4 border-[#b08b35] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            
+            <div>
+              <label for="name" class="block text-sm font-semibold text-[#5c4a37] font-sinhala-serif">ඔබගේ නම (Your Name)</label>
+              <input v-model="rsvpForm.guest_name" type="text" id="name" required class="mt-2 block w-full rounded-md border border-[#c5a85c]/30 py-2.5 px-3.5 text-gray-900 shadow-sm focus:ring-2 focus:ring-[#b08b35] sm:text-sm bg-white" placeholder="John Doe">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-[#5c4a37] font-sinhala-serif mb-2">සහභාගී වන්නේද? (Will you attend?)</label>
+              <div class="flex items-center gap-4">
+                <label class="flex items-center cursor-pointer p-3 border rounded-lg flex-1 border-gray-300 hover:border-[#b08b35] transition-colors" :class="{'ring-2 ring-[#b08b35] border-[#b08b35]': rsvpForm.is_attending === true}">
+                  <input type="radio" v-model="rsvpForm.is_attending" :value="true" class="sr-only" required>
+                  <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center mr-3" :class="{'border-[#b08b35]': rsvpForm.is_attending === true}">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#b08b35] transition-transform scale-0" :class="{'scale-100': rsvpForm.is_attending === true}"></div>
+                  </div>
+                  <span class="text-xs font-semibold text-gray-900 font-sinhala-serif">සතුටින් පැමිණෙමි</span>
+                </label>
+                
+                <label class="flex items-center cursor-pointer p-3 border rounded-lg flex-1 border-gray-300 hover:border-[#b08b35] transition-colors" :class="{'ring-2 ring-[#b08b35] border-[#b08b35]': rsvpForm.is_attending === false}">
+                  <input type="radio" v-model="rsvpForm.is_attending" :value="false" class="sr-only" required>
+                  <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center mr-3" :class="{'border-[#b08b35]': rsvpForm.is_attending === false}">
+                    <div class="w-2.5 h-2.5 rounded-full bg-[#b08b35] transition-transform scale-0" :class="{'scale-100': rsvpForm.is_attending === false}"></div>
+                  </div>
+                  <span class="text-xs font-semibold text-gray-900 font-sinhala-serif">පැමිණීමට නොහැක</span>
+                </label>
+              </div>
+            </div>
+
+            <div v-if="rsvpForm.is_attending">
+              <label for="count" class="block text-sm font-semibold text-[#5c4a37] font-sinhala-serif">සහභාගී වන ගණන (Guests)</label>
+              <select v-model="rsvpForm.guest_count" id="count" class="mt-2 block w-full rounded-md border border-[#c5a85c]/30 py-2.5 px-3.5 text-gray-900 bg-white">
+                <option value="1">මා පමණක් (1)</option>
+                <option value="2">දෙදෙනෙක් (2)</option>
+                <option value="3">තිදෙනෙක් (3)</option>
+                <option value="4">සිව්දෙනෙක් (4)</option>
+                <option value="5">පස්දෙනෙක් (5)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-3 px-4 mt-4 rounded-full text-white bg-[#b08b35] hover:bg-[#9a7525] shadow-lg hover:shadow-xl transition-all font-semibold font-sinhala-serif text-center">
+              ලියාපදිංචි කරන්න (Send RSVP)
+            </button>
+          </form>
+
+          <!-- RSVP Contact Info Display -->
+          <div class="mt-8 font-sinhala-serif text-[#5c4a37] text-sm sm:text-base font-semibold">
+            විමසීම් : {{ sinhalaData.rsvp_contact }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Default Modern Template -->
   <main v-else :class="['min-h-screen font-sans', themeClass, {'overflow-hidden h-screen': !isOpenedFully}]" :style="cssVars">
     
     <!-- Card Opening Animation Overlay -->
@@ -163,8 +446,8 @@
           </div>
           
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Full Name</label>
-            <input v-model="rsvpForm.guest_name" type="text" id="name" required class="mt-2 block w-full rounded-md border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-theme-accent sm:text-sm sm:leading-6 dark:bg-gray-700 dark:ring-gray-600 dark:text-white" placeholder="John Doe">
+            <label for="name_modern" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Full Name</label>
+            <input v-model="rsvpForm.guest_name" type="text" id="name_modern" required class="mt-2 block w-full rounded-md border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-theme-accent sm:text-sm sm:leading-6 dark:bg-gray-700 dark:ring-gray-600 dark:text-white" placeholder="John Doe">
           </div>
 
           <div>
@@ -189,8 +472,8 @@
           </div>
 
           <div v-if="rsvpForm.is_attending">
-            <label for="count" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Number of Guests</label>
-            <select v-model="rsvpForm.guest_count" id="count" class="mt-2 block w-full rounded-md border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-theme-accent sm:text-sm sm:leading-6 dark:bg-gray-700 dark:ring-gray-600 dark:text-white">
+            <label for="count_modern" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Number of Guests</label>
+            <select v-model="rsvpForm.guest_count" id="count_modern" class="mt-2 block w-full rounded-md border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-theme-accent sm:text-sm sm:leading-6 dark:bg-gray-700 dark:ring-gray-600 dark:text-white">
               <option value="1">Just Me (1)</option>
               <option value="2">Two of Us (2)</option>
               <option value="3">Three of Us (3)</option>
@@ -236,6 +519,8 @@ const openInvitation = () => {
 // Fetch Invitation Data
 const invite = ref<any>(null)
 const pending = ref(true)
+const isSinhala = ref(false)
+const sinhalaData = ref<any>({})
 
 const fetchInvite = async () => {
   pending.value = true
@@ -249,6 +534,18 @@ const fetchInvite = async () => {
     console.error('Error fetching invitation:', error)
   } else {
     invite.value = data
+    // Parse Sinhala Details from special_comments if applicable
+    if (data.special_comments && data.special_comments.startsWith('{') && data.special_comments.endsWith('}')) {
+      try {
+        const parsed = JSON.parse(data.special_comments)
+        if (parsed.is_sinhala) {
+          isSinhala.value = true
+          sinhalaData.value = parsed
+        }
+      } catch (e) {
+        console.error('Error parsing special comments as JSON:', e)
+      }
+    }
   }
   pending.value = false
 }
@@ -263,6 +560,33 @@ const formattedDate = computed(() => eventDateObj.value.toLocaleDateString('en-U
 const formattedFullDate = computed(() => eventDateObj.value.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }))
 const formattedTime = computed(() => eventDateObj.value.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }))
 
+// Sinhala Date Formats
+const sinhalaMonths = ['ජනවාරි', 'පෙබරවාරි', 'මාර්තු', 'අප්‍රේල්', 'මැයි', 'ජූනි', 'ජූලි', 'අගෝස්තු', 'සැප්තැම්බර්', 'ඔක්තෝබර්', 'නොවැම්බර්', 'දෙසැම්බර්']
+const sinhalaDays = ['ඉරිදා', 'සඳුදා', 'අඟහරුවාදා', 'බදාදා', 'බ්‍රහස්පතින්දා', 'සිකුරාදා', 'සෙනසුරාදා']
+
+const sinhalaMonth = computed(() => sinhalaMonths[eventDateObj.value.getMonth()])
+const sinhalaDayOfWeek = computed(() => sinhalaDays[eventDateObj.value.getDay()])
+
+const formattedSinhalaTime = computed(() => {
+  let hours = eventDateObj.value.getHours()
+  let minutes = eventDateObj.value.getMinutes()
+  hours = hours % 12
+  hours = hours ? hours : 12 // the hour '0' should be '12'
+  const minStr = minutes < 10 ? '0' + minutes : minutes
+  return `${hours}.${minStr}`
+})
+
+const formattedEndTime = computed(() => {
+  // Traditional Sinhala cards end in late afternoon, usually 3.30 PM. We can estimate event duration to be 6 hours or parse
+  const end = new Date(eventDateObj.value.getTime() + 6.5 * 60 * 60 * 1000)
+  let hours = end.getHours()
+  let minutes = end.getMinutes()
+  hours = hours % 12
+  hours = hours ? hours : 12
+  const minStr = minutes < 10 ? '0' + minutes : minutes
+  return `${hours}.${minStr}`
+})
+
 // Theme Logic
 const themes = {
   rose: { bg: '#fff0f5', text: '#4a3b3c', accent: '#b76e79' },
@@ -271,9 +595,18 @@ const themes = {
   ocean: { bg: '#f0f8ff', text: '#1b3b5c', accent: '#0077b6' },
 }
 
-const themeClass = computed(() => `theme-${invite.value?.theme_color || 'rose'}`)
+const themeClass = computed(() => {
+  if (!invite.value) return 'theme-rose'
+  const baseTheme = invite.value.theme_color.replace('_sinhala', '')
+  return `theme-${baseTheme}`
+})
 
 const initials = computed(() => {
+  if (isSinhala.value && sinhalaData.value.bride_name) {
+    const b = sinhalaData.value.bride_name.trim().charAt(0)
+    const g = sinhalaData.value.groom_name.trim().charAt(0)
+    return `${b}${g}`
+  }
   if (!invite.value || !invite.value.couple_names) return 'W'
   const names = invite.value.couple_names.split('&').map((n: string) => n.trim())
   if (names.length >= 2) {
@@ -284,7 +617,8 @@ const initials = computed(() => {
 
 const cssVars = computed(() => {
   if (!invite.value) return {}
-  const theme = themes[invite.value.theme_color as keyof typeof themes] || themes.rose
+  const baseTheme = invite.value.theme_color.replace('_sinhala', '')
+  const theme = themes[baseTheme as keyof typeof themes] || themes.rose
   return {
     '--theme-bg': theme.bg,
     '--theme-text': theme.text,
@@ -352,10 +686,16 @@ const calendarUrl = computed(() => {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@300;400;600;700&family=Noto+Sans+Sinhala:wght@300;400;600&family=Yatra+One&display=swap');
 
 .font-script { font-family: 'Great Vibes', cursive; }
 .font-heading { font-family: 'Playfair Display', serif; }
 .font-sans { font-family: 'Inter', sans-serif; }
+
+/* Traditional Sinhala Fonts */
+.font-yatra { font-family: 'Yatra One', cursive, serif; }
+.font-sinhala-serif { font-family: 'Noto Serif Sinhala', serif; }
+.font-sinhala-sans { font-family: 'Noto Sans Sinhala', sans-serif; }
 
 /* CSS Variables fallbacks */
 :root {

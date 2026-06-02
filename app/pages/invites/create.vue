@@ -8,69 +8,185 @@
 
       <form @submit.prevent="createInvite" class="space-y-8 bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
         
-        <!-- Couple Names -->
+        <!-- Template Selector -->
         <div>
-          <label for="names" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Couple Names</label>
-          <div class="mt-2">
-            <input v-model="form.couple_names" type="text" name="names" id="names" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Romeo & Juliet" required />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-          <!-- Event Date -->
-          <div>
-            <label for="date" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Event Date & Time</label>
-            <div class="mt-2">
-              <input v-model="form.event_date" type="datetime-local" name="date" id="date" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" required />
-            </div>
-          </div>
-
-          <!-- Location -->
-          <div>
-            <label for="location" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Venue / Location Name</label>
-            <div class="mt-2">
-              <input v-model="form.location" type="text" name="location" id="location" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Shangri-La Colombo" required />
-            </div>
-          </div>
-        </div>
-
-        <!-- Google Maps Link -->
-        <div>
-          <label for="map_url" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Google Maps Link (Optional)</label>
-          <div class="mt-2">
-            <input v-model="form.map_url" type="url" name="map_url" id="map_url" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="https://maps.app.goo.gl/..." />
-          </div>
-        </div>
-
-        <!-- Special Comments -->
-        <div>
-          <label for="comments" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Special Comments (Optional)</label>
-          <div class="mt-2">
-            <textarea v-model="form.special_comments" id="comments" name="comments" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="Dress code, RSVP details, etc."></textarea>
-          </div>
-        </div>
-
-        <!-- Image Upload -->
-        <div>
-          <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Couple Photo</label>
-          <div class="mt-2 flex items-center gap-x-3">
-            <input type="file" accept="image/*" @change="handleFileUpload" class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 dark:file:bg-gray-700 dark:file:text-white" />
-          </div>
-          <p v-if="uploadingImage" class="mt-2 text-sm text-brand-600">Uploading image...</p>
-          <div v-if="form.image_url" class="mt-4">
-            <img :src="form.image_url" alt="Couple Photo" class="h-40 w-auto rounded-lg object-cover shadow-sm border border-gray-200 dark:border-gray-700" />
-          </div>
-        </div>
-
-        <!-- Theme Color -->
-        <div>
-          <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Theme Color</label>
-          <div class="mt-3 flex items-center gap-4">
-            <label v-for="theme in themes" :key="theme.id" class="relative cursor-pointer">
-              <input type="radio" v-model="form.theme_color" :value="theme.id" class="peer sr-only" name="theme_color" />
-              <div :class="[theme.bgClass, 'w-10 h-10 rounded-full border-2 border-transparent peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-offset-white dark:peer-checked:ring-offset-gray-800 transition-all shadow-sm']" :style="{ '--tw-ring-color': theme.hex }"></div>
-              <span class="mt-2 block text-xs text-center font-medium text-gray-900 dark:text-gray-300 peer-checked:text-brand-500">{{ theme.name }}</span>
+          <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Select Invitation Template</label>
+          <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <!-- Modern Arch -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white dark:bg-gray-700 p-4 shadow-sm focus:outline-none" :class="[selectedTemplate === 'modern' ? 'border-brand-500 ring-2 ring-brand-500' : 'border-gray-300 dark:border-gray-600']">
+              <input type="radio" v-model="selectedTemplate" value="modern" class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Modern Arch Template</span>
+                  <span class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">Sleek, image-focused contemporary layout with modern typography and sliding door animation.</span>
+                </span>
+              </span>
+              <span class="flex h-5 items-center" v-if="selectedTemplate === 'modern'">
+                <span class="h-4 w-4 rounded-full bg-brand-500 flex items-center justify-center">
+                  <span class="h-2 w-2 rounded-full bg-white"></span>
+                </span>
+              </span>
             </label>
+
+            <!-- Traditional Sinhala -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white dark:bg-gray-700 p-4 shadow-sm focus:outline-none" :class="[selectedTemplate === 'sinhala' ? 'border-brand-500 ring-2 ring-brand-500' : 'border-gray-300 dark:border-gray-600']">
+              <input type="radio" v-model="selectedTemplate" value="sinhala" class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white">Traditional Sinhala Card</span>
+                  <span class="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400">Premium gold-pressed look with traditional Sinhala fonts, custom parent details, date box, and Kandyan couple illustration.</span>
+                </span>
+              </span>
+              <span class="flex h-5 items-center" v-if="selectedTemplate === 'sinhala'">
+                <span class="h-4 w-4 rounded-full bg-brand-500 flex items-center justify-center">
+                  <span class="h-2 w-2 rounded-full bg-white"></span>
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Dynamic Template Fields -->
+        <div v-if="selectedTemplate === 'sinhala'" class="space-y-6 border-t border-gray-100 dark:border-gray-700 pt-6">
+          <h2 class="text-lg font-medium text-gray-900 dark:text-white">Traditional Sinhala Card Details</h2>
+          
+          <!-- Sinhala Title / Greeting -->
+          <div>
+            <label for="sinhala_title" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Greeting Header (ආරාධනා ශීර්ෂය)</label>
+            <div class="mt-2">
+              <input v-model="sinhalaForm.sub_title" type="text" id="sinhala_title" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ශ්‍රී සුභ මංගලම්....!" required />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- Bride's Parents -->
+            <div>
+              <label for="bride_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Bride's Parents (මනාලියගේ මව්පියන්)</label>
+              <div class="mt-2">
+                <textarea v-model="sinhalaForm.bride_parents" id="bride_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ඩී.පී. රත්නපාල (නැසීගිය) මහතාගේ සහ එච්.පී. කරුණාවතී මහත්මියගේ ආදරණීය දියණිය" required></textarea>
+              </div>
+            </div>
+
+            <!-- Groom's Parents -->
+            <div>
+              <label for="groom_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Groom's Parents (මනාලයාගේ මව්පියන්)</label>
+              <div class="mt-2">
+                <textarea v-model="sinhalaForm.groom_parents" id="groom_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., හේමන් දසනායක (නැසීගිය) මහතාගේ සහ චිත්‍රා දසනායක (නැසීගිය) මහත්මියගේ ආදරණීය පුතණුවන්" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- Bride Name -->
+            <div>
+              <label for="bride_name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Bride's Name (මනාලියගේ නම)</label>
+              <div class="mt-2">
+                <input v-model="sinhalaForm.bride_name" type="text" id="bride_name" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., දිල්හානි" required />
+              </div>
+            </div>
+
+            <!-- Groom Name -->
+            <div>
+              <label for="groom_name" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Groom's Name (මනාලයාගේ නම)</label>
+              <div class="mt-2">
+                <input v-model="sinhalaForm.groom_name" type="text" id="groom_name" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., කේස්වන්" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Poruwa time & custom invitation note -->
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <label for="poruwa_time" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Poruwa Ceremony Time (පෝරුවේ චාරිත්‍ර වේලාව - Optional)</label>
+              <div class="mt-2">
+                <input v-model="sinhalaForm.poruwa_time" type="text" id="poruwa_time" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., පෝරුවේ චාරිත්‍ර පෙ.ව. 09.30" />
+              </div>
+            </div>
+
+            <div>
+              <label for="rsvp_contact" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">RSVP Contact Number (සම්බන්ධතා දුරකථන අංකය)</label>
+              <div class="mt-2">
+                <input v-model="sinhalaForm.rsvp_contact" type="text" id="rsvp_contact" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., දිල්හානි : 077-1111059" required />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="invite_note" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Custom Invitation Note (ආරාධනා වැකිය)</label>
+            <div class="mt-2">
+              <input v-model="sinhalaForm.invite_note" type="text" id="invite_note" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ඔබට/ඔබ දෙපලට/ඔබ සැමට සෙනෙහසින් ඇරයුම් කරමු." required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Standard Fields (Common) -->
+        <div class="space-y-6 border-t border-gray-100 dark:border-gray-700 pt-6">
+          <h2 class="text-lg font-medium text-gray-900 dark:text-white">General Event Info</h2>
+          
+          <!-- Couple Names (Only if modern template) -->
+          <div v-if="selectedTemplate === 'modern'">
+            <label for="names" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Couple Names</label>
+            <div class="mt-2">
+              <input v-model="form.couple_names" type="text" name="names" id="names" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., Romeo & Juliet" :required="selectedTemplate === 'modern'" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+            <!-- Event Date -->
+            <div>
+              <label for="date" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Event Date & Time</label>
+              <div class="mt-2">
+                <input v-model="form.event_date" type="datetime-local" name="date" id="date" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" required />
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div>
+              <label for="location" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Venue / Location Name (Sinhala or English)</label>
+              <div class="mt-2">
+                <input v-model="form.location" type="text" name="location" id="location" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., දූලපතීය සෙවෝන්ලැක් උත්සව ශාලාවේ දී" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Google Maps Link -->
+          <div>
+            <label for="map_url" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Google Maps Link (Optional)</label>
+            <div class="mt-2">
+              <input v-model="form.map_url" type="url" name="map_url" id="map_url" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="https://maps.app.goo.gl/..." />
+            </div>
+          </div>
+
+          <!-- Special Comments (Only shown for modern layout) -->
+          <div v-if="selectedTemplate === 'modern'">
+            <label for="comments" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Special Comments (Optional)</label>
+            <div class="mt-2">
+              <textarea v-model="form.special_comments" id="comments" name="comments" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="Dress code, RSVP details, etc."></textarea>
+            </div>
+          </div>
+
+          <!-- Image Upload (Only shown for modern layout) -->
+          <div v-if="selectedTemplate === 'modern'">
+            <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Couple Photo</label>
+            <div class="mt-2 flex items-center gap-x-3">
+              <input type="file" accept="image/*" @change="handleFileUpload" class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 dark:file:bg-gray-700 dark:file:text-white" />
+            </div>
+            <p v-if="uploadingImage" class="mt-2 text-sm text-brand-600">Uploading image...</p>
+            <div v-if="form.image_url" class="mt-4">
+              <img :src="form.image_url" alt="Couple Photo" class="h-40 w-auto rounded-lg object-cover shadow-sm border border-gray-200 dark:border-gray-700" />
+            </div>
+          </div>
+
+          <!-- Theme Color -->
+          <div>
+            <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Theme Color Palette</label>
+            <div class="mt-3 flex items-center gap-4">
+              <label v-for="theme in themes" :key="theme.id" class="relative cursor-pointer">
+                <input type="radio" v-model="form.theme_color" :value="theme.id" class="peer sr-only" name="theme_color" />
+                <div :class="[theme.bgClass, 'w-10 h-10 rounded-full border-2 border-transparent peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-offset-white dark:peer-checked:ring-offset-gray-800 transition-all shadow-sm']" :style="{ '--tw-ring-color': theme.hex }"></div>
+                <span class="mt-2 block text-xs text-center font-medium text-gray-900 dark:text-gray-300 peer-checked:text-brand-500">{{ theme.name }}</span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -95,12 +211,13 @@ const user = useSupabaseUser()
 const router = useRouter()
 
 const loading = ref(false)
+const selectedTemplate = ref('modern') // 'modern' or 'sinhala'
 
 const themes = [
   { id: 'rose', name: 'Rose Gold', bgClass: 'bg-[#b76e79]', hex: '#b76e79' },
   { id: 'emerald', name: 'Emerald', bgClass: 'bg-[#50C878]', hex: '#50C878' },
   { id: 'dark', name: 'Midnight', bgClass: 'bg-[#1a202c]', hex: '#1a202c' },
-  { id: 'ocean', name: 'Ocean', bgClass: 'bg-[#0077b6]', hex: '#0077b6' },
+  { id: 'ocean', name: 'Ocean Blue', bgClass: 'bg-[#0077b6]', hex: '#0077b6' },
 ]
 
 const form = reactive({
@@ -110,7 +227,18 @@ const form = reactive({
   map_url: '',
   special_comments: '',
   theme_color: 'rose',
-  image_url: '' // We will implement image upload next
+  image_url: ''
+})
+
+const sinhalaForm = reactive({
+  sub_title: 'ශ්‍රී සුභ මංගලම්....!',
+  bride_parents: '',
+  bride_name: '',
+  groom_parents: '',
+  groom_name: '',
+  poruwa_time: '',
+  invite_note: 'ඔබට/ඔබ දෙපලට/ඔබ සැමට සෙනෙහසින් ඇරයුම් කරමු.',
+  rsvp_contact: ''
 })
 
 const uploadingImage = ref(false)
@@ -142,7 +270,9 @@ const handleFileUpload = async (event: any) => {
 }
 
 const createInvite = async () => {
-  if (!user.value) {
+  // Ensure user is loaded
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  if (!currentUser) {
     alert("You must be logged in to create an invitation.")
     return
   }
@@ -150,15 +280,38 @@ const createInvite = async () => {
   loading.value = true
   
   try {
+    let coupleNames = form.couple_names
+    let comments = form.special_comments
+    let themeColor = form.theme_color
+
+    // If traditional Sinhala is selected, construct payload
+    if (selectedTemplate.value === 'sinhala') {
+      coupleNames = `${sinhalaForm.bride_name} & ${sinhalaForm.groom_name}`
+      themeColor = `${form.theme_color}_sinhala`
+      
+      const payload = {
+        is_sinhala: true,
+        sub_title: sinhalaForm.sub_title,
+        bride_parents: sinhalaForm.bride_parents,
+        bride_name: sinhalaForm.bride_name,
+        groom_parents: sinhalaForm.groom_parents,
+        groom_name: sinhalaForm.groom_name,
+        poruwa_time: sinhalaForm.poruwa_time,
+        invite_note: sinhalaForm.invite_note,
+        rsvp_contact: sinhalaForm.rsvp_contact
+      }
+      comments = JSON.stringify(payload)
+    }
+
     const { data, error } = await supabase.from('invitations').insert({
-      user_id: user.value.id,
-      couple_names: form.couple_names,
+      user_id: currentUser.id,
+      couple_names: coupleNames,
       event_date: new Date(form.event_date).toISOString(),
       location: form.location,
       map_url: form.map_url,
-      special_comments: form.special_comments,
-      theme_color: form.theme_color,
-      image_url: form.image_url
+      special_comments: comments,
+      theme_color: themeColor,
+      image_url: selectedTemplate.value === 'sinhala' ? '' : form.image_url
     }).select().single()
 
     if (error) throw error
@@ -173,3 +326,4 @@ const createInvite = async () => {
   }
 }
 </script>
+
