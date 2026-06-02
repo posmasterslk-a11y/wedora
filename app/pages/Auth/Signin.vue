@@ -23,7 +23,7 @@
             <!-- Single Sign-On (SSO) Google Login Button -->
             <div class="space-y-4">
               <button
-                @click.prevent="signInWithGoogle"
+                @click="signInWithGoogle"
                 class="flex w-full items-center justify-center gap-3 py-3.5 text-sm font-semibold text-gray-700 transition-all duration-300 bg-gray-50 border border-gray-200 rounded-xl px-7 hover:bg-gray-100 hover:text-gray-900 hover:shadow-md dark:bg-white/5 dark:border-gray-800 dark:text-white/90 dark:hover:bg-white/10"
               >
                 <!-- Google SVG Logo -->
