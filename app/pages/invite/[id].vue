@@ -325,38 +325,64 @@
     </div>
   </main>
 
-  <!-- Default Modern Template -->
+  <!-- Premium Navy & Laser-Cut Gold Lace Envelope Template (English Layout) -->
   <main v-else :class="['min-h-screen font-sans', themeClass, {'overflow-hidden h-screen': !isOpenedFully}]" :style="cssVars">
     
-    <!-- Card Opening Animation Overlay -->
-    <div v-if="!isOpenedFully" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-theme-bg/30 backdrop-blur-sm" :class="{'pointer-events-none': opening}">
+    <!-- Premium Laser-Cut Envelope / Opening Overlay -->
+    <div v-if="!isOpenedFully" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/60 backdrop-blur-md" :class="{'pointer-events-none': opening}">
       
-      <!-- Left Door -->
+      <!-- Left Laser-Cut Gate (Navy Blue & Ornate Gold Lace) -->
       <div 
-        class="absolute inset-y-0 left-0 w-1/2 bg-theme-bg border-r border-theme-accent/20 shadow-2xl flex items-center justify-end pr-1 transition-all duration-[1200ms] ease-out-cubic origin-left"
-        :style="opening ? 'transform: perspective(1200px) rotateY(-100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+        class="absolute inset-y-0 left-0 w-1/2 flex items-center justify-end transition-all duration-[1600ms] ease-out-cubic origin-left shadow-[5px_0_20px_rgba(0,0,0,0.6)]"
+        :style="opening ? 'transform: perspective(1600px) rotateY(-110deg) scale(0.98); opacity: 0; filter: brightness(0.3);' : 'transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1;'"
+        style="background: #0f1c3f;"
       >
-        <div class="w-px h-1/2 bg-theme-accent/10"></div>
+        <!-- Left Gold Lace SVG Overlay (Intricate Baroque Swirls) -->
+        <svg class="absolute right-0 inset-y-0 w-44 h-full text-[#d4af37]/80 opacity-90 fill-current pointer-events-none" viewBox="0 0 100 600" preserveAspectRatio="none">
+          <!-- Complex lace mesh patterns -->
+          <path d="M 0 0 Q 30 50 10 100 Q 60 150 20 200 Q 80 250 30 300 Q 80 350 30 400 Q 60 450 20 500 Q 30 550 0 600 Z" />
+          <path d="M 0 20 C 50 80 100 40 80 120 C 60 200 100 180 70 260 C 40 340 90 320 70 400 C 50 480 90 460 60 540 C 30 620 0 580 0 600" fill="none" stroke="#d4af37" stroke-width="3"/>
+          <circle cx="50" cy="80" r="4" fill="#d4af37"/>
+          <circle cx="35" cy="180" r="3" fill="#d4af37"/>
+          <circle cx="65" cy="280" r="5" fill="#d4af37"/>
+          <circle cx="40" cy="380" r="4" fill="#d4af37"/>
+          <circle cx="55" cy="480" r="3" fill="#d4af37"/>
+        </svg>
+        <div class="absolute inset-4 border border-[#d4af37]/20 pointer-events-none rounded-sm"></div>
       </div>
       
-      <!-- Right Door -->
+      <!-- Right Laser-Cut Gate (Navy Blue & Ornate Gold Lace) -->
       <div 
-        class="absolute inset-y-0 right-0 w-1/2 bg-theme-bg border-l border-theme-accent/20 shadow-2xl flex items-center justify-start pl-1 transition-all duration-[1200ms] ease-out-cubic origin-right"
-        :style="opening ? 'transform: perspective(1200px) rotateY(100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+        class="absolute inset-y-0 right-0 w-1/2 flex items-center justify-start transition-all duration-[1600ms] ease-out-cubic origin-right shadow-[-5px_0_20px_rgba(0,0,0,0.6)]"
+        :style="opening ? 'transform: perspective(1600px) rotateY(110deg) scale(0.98); opacity: 0; filter: brightness(0.3);' : 'transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1;'"
+        style="background: #0f1c3f;"
       >
-        <div class="w-px h-1/2 bg-theme-accent/10"></div>
+        <!-- Right Gold Lace SVG Overlay (Intricate Baroque Swirls) -->
+        <svg class="absolute left-0 inset-y-0 w-44 h-full text-[#d4af37]/80 opacity-90 fill-current pointer-events-none transform scale-x-[-1]" viewBox="0 0 100 600" preserveAspectRatio="none">
+          <path d="M 0 0 Q 30 50 10 100 Q 60 150 20 200 Q 80 250 30 300 Q 80 350 30 400 Q 60 450 20 500 Q 30 550 0 600 Z" />
+          <path d="M 0 20 C 50 80 100 40 80 120 C 60 200 100 180 70 260 C 40 340 90 320 70 400 C 50 480 90 460 60 540 C 30 620 0 580 0 600" fill="none" stroke="#d4af37" stroke-width="3"/>
+          <circle cx="50" cy="80" r="4" fill="#d4af37"/>
+          <circle cx="35" cy="180" r="3" fill="#d4af37"/>
+          <circle cx="65" cy="280" r="5" fill="#d4af37"/>
+          <circle cx="40" cy="380" r="4" fill="#d4af37"/>
+          <circle cx="55" cy="480" r="3" fill="#d4af37"/>
+        </svg>
+        <div class="absolute inset-4 border border-[#d4af37]/20 pointer-events-none rounded-sm"></div>
       </div>
-      
-      <!-- Center Seal / Tap to Open -->
+
+      <!-- Navy & Gold Belly Band (Ribbon) in the Center -->
       <div 
-        @click="openInvitation" 
-        class="relative z-10 flex flex-col items-center justify-center cursor-pointer group transition-all duration-700 ease-in-out"
-        :class="opening ? 'opacity-0 scale-150 rotate-12 blur-sm' : 'opacity-100 scale-100 rotate-0'"
+        @click="openInvitation"
+        class="absolute z-10 w-full max-w-lg h-24 sm:h-28 bg-[#0c1630] border-y-4 border-double border-[#d4af37] shadow-[0_10px_35px_rgba(0,0,0,0.6)] px-4 flex flex-col items-center justify-center cursor-pointer group transition-all duration-[1200ms] ease-out-cubic"
+        :style="opening ? 'transform: translateY(-80px) scale(0.9); opacity: 0; filter: blur(4px);' : 'transform: translateY(0) scale(1); opacity: 1;'"
       >
-        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-theme-accent text-white flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.2)] group-hover:scale-110 transition-transform duration-300 border-4 border-white/20">
-          <span class="font-serif text-3xl sm:text-4xl italic shadow-sm">{{ initials }}</span>
-        </div>
-        <p class="mt-6 text-theme-accent font-medium tracking-[0.2em] uppercase text-xs sm:text-sm animate-pulse group-hover:animate-none">Tap to Open</p>
+        <h2 class="font-heading italic text-xl sm:text-2xl text-[#d4af37] tracking-wider drop-shadow-md text-center">
+          {{ invite.couple_names }}
+        </h2>
+        <div class="w-16 h-px bg-[#d4af37]/40 my-1"></div>
+        <p class="text-white/60 tracking-[0.25em] text-[10px] sm:text-xs uppercase font-sans font-medium animate-pulse group-hover:animate-none">
+          Click to Open Invitation
+        </p>
       </div>
     </div>
 
