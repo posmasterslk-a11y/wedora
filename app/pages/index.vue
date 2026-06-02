@@ -62,12 +62,20 @@
                         <span class="sm:hidden">Edit</span>
                       </router-link>
 
-                      <!-- Delete Invite (Triggers modern custom modal) -->
+                      <!-- Delete Invite -->
                       <button @click="confirmDelete(invite.id, invite.couple_names)" class="text-gray-500 hover:text-red-500 transition-colors mr-4 inline-flex items-center" title="Delete Invitation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                         <span class="sm:hidden">Delete</span>
+                      </button>
+
+                      <!-- WhatsApp Share -->
+                      <button @click="shareToWhatsapp(invite.id, invite.couple_names)" class="text-gray-500 hover:text-green-500 transition-colors mr-4 inline-flex items-center" title="Share via WhatsApp">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.488 1.452 5.419 1.453 5.466 0 9.912-4.444 9.915-9.913.002-2.65-1.02-5.14-2.878-7.001C17.244 1.83 14.756.804 12.01.802 6.545.802 2.099 5.248 2.096 10.718c-.001 1.993.521 3.94 1.512 5.679l-.999 3.65 3.738-.981zm12.029-7.143c-.328-.164-1.944-.959-2.242-1.068-.298-.11-.515-.164-.73.164-.216.329-.838 1.068-1.028 1.287-.19.219-.38.246-.708.082-1.223-.613-2.185-1.062-3.044-2.533-.228-.392.228-.364.654-1.218.076-.153.038-.287-.019-.397-.057-.109-.515-1.24-.706-1.698-.186-.447-.375-.386-.515-.393-.133-.007-.285-.008-.438-.008-.153 0-.401.057-.61.287-.21.229-.801.782-.801 1.908 0 1.126.818 2.215.932 2.269.115.054 1.611 2.459 3.902 3.447.545.235 1.027.375 1.38.488.548.174 1.047.15 1.442.09.44-.067 1.943-.795 2.217-1.56.274-.765.274-1.422.19-1.56-.083-.138-.298-.22-.627-.384z" />
+                        </svg>
+                        <span class="sm:hidden">Share</span>
                       </button>
 
                       <!-- Copy Link -->
@@ -210,6 +218,17 @@ const copyLink = (id: string) => {
   navigator.clipboard.writeText(url)
     .then(() => alert('Invitation link copied to clipboard!'))
     .catch(err => console.error('Failed to copy: ', err))
+}
+
+// WhatsApp Share with Warm Customized Pre-Filled Message
+const shareToWhatsapp = (id: string, coupleNames: string) => {
+  const inviteUrl = `${window.location.origin}/invite/${id}`
+  
+  // Custom message containing couple names and warm trustworthy text
+  const messageText = `💍✨ ${coupleNames} Wedding Invitation ✨💍\n\nWe are getting married! We lovingly invite you to share in our joy. Open this beautiful digital card to view all the wedding details & RSVP:\n\n👉 ${inviteUrl}`
+  
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(messageText)}`
+  window.open(whatsappUrl, '_blank')
 }
 
 // Trigger Custom Delete Modal
