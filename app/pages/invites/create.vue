@@ -63,7 +63,7 @@
             <div>
               <label for="bride_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Bride's Parents (මනාලියගේ මව්පියන්)</label>
               <div class="mt-2">
-                <textarea v-model="sinhalaForm.bride_parents" id="bride_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ඩී.පී. රත්නපාල (නැසීගිය) මහතාගේ සහ එච්.පී. කරුණාවතී මහත්මියගේ ආදරණීය දියණිය" required></textarea>
+                <textarea v-model="sinhalaForm.bride_parents" id="bride_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., ඩී.පී. රත්නපාල මහතාගේ සහ එච්.පී. කරුණාවතී මහත්මියගේ ආදරණීය දියණිය" required></textarea>
               </div>
             </div>
 
@@ -71,7 +71,7 @@
             <div>
               <label for="groom_parents" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Groom's Parents (මනාලයාගේ මව්පියන්)</label>
               <div class="mt-2">
-                <textarea v-model="sinhalaForm.groom_parents" id="groom_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., හේමන් දසනායක (නැසීගිය) මහතාගේ සහ චිත්‍රා දසනායක (නැසීගිය) මහත්මියගේ ආදරණීය පුතණුවන්" required></textarea>
+                <textarea v-model="sinhalaForm.groom_parents" id="groom_parents" rows="3" class="block w-full rounded-md border-0 py-2.5 px-3.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:bg-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6" placeholder="e.g., හේමන් දසනායක මහතාගේ සහ චිත්‍රා දසනායක මහත්මියගේ ආදරණීය පුතණුවන්" required></textarea>
               </div>
             </div>
           </div>
