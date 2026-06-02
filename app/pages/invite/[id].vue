@@ -21,34 +21,59 @@
   <!-- Traditional Sinhala Invitation Template -->
   <main v-else-if="isSinhala" class="min-h-screen font-sinhala-sans bg-[#fbf9f4] text-[#3c3220] relative flex items-center justify-center py-10 px-4">
     
-    <!-- Premium Envelope / Door Opening Animation -->
-    <div v-if="!isOpenedFully" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/40 backdrop-blur-sm" :class="{'pointer-events-none': opening}">
-      <!-- Left Door -->
+    <!-- Royal Palace Gates (Raja Maligawa Doors) Opening Animation Overlay -->
+    <div v-if="!isOpenedFully" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/60 backdrop-blur-md" :class="{'pointer-events-none': opening}">
+      
+      <!-- Left Gate (Royal Carved Teak Wood & Gold border) -->
       <div 
-        class="absolute inset-y-0 left-0 w-1/2 bg-[#faf6ee] border-r border-[#c5a85c]/30 shadow-2xl flex items-center justify-end pr-1 transition-all duration-[1200ms] ease-out-cubic origin-left"
-        :style="opening ? 'transform: perspective(1200px) rotateY(-100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+        class="absolute inset-y-0 left-0 w-1/2 shadow-[10px_0_30px_rgba(0,0,0,0.5)] border-r border-[#c5a85c]/40 flex items-center justify-end transition-all duration-[1600ms] ease-out-cubic origin-left"
+        :style="opening ? 'transform: perspective(1600px) rotateY(-110deg) scale(0.98); opacity: 0; filter: brightness(0.3);' : 'transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1;'"
+        style="background: linear-gradient(135deg, #3a220c 0%, #1c0e03 100%);"
       >
-        <div class="w-px h-1/2 bg-[#c5a85c]/20"></div>
+        <!-- Gold Frame Border on Left Door -->
+        <div class="absolute inset-4 sm:inset-6 border-[3px] border-double border-[#c5a85c]/30 pointer-events-none rounded-sm"></div>
+        <div class="absolute top-8 left-8 text-[#c5a85c]/20 w-16 h-16">
+          <svg viewBox="0 0 100 100" class="w-full h-full fill-current"><path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" /></svg>
+        </div>
+        <div class="absolute bottom-8 left-8 text-[#c5a85c]/20 w-16 h-16 transform -rotate-90">
+          <svg viewBox="0 0 100 100" class="w-full h-full fill-current"><path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" /></svg>
+        </div>
       </div>
       
-      <!-- Right Door -->
+      <!-- Right Gate (Royal Carved Teak Wood & Gold border) -->
       <div 
-        class="absolute inset-y-0 right-0 w-1/2 bg-[#faf6ee] border-l border-[#c5a85c]/30 shadow-2xl flex items-center justify-start pl-1 transition-all duration-[1200ms] ease-out-cubic origin-right"
-        :style="opening ? 'transform: perspective(1200px) rotateY(100deg); opacity: 0;' : 'transform: perspective(1200px) rotateY(0deg); opacity: 1;'"
+        class="absolute inset-y-0 right-0 w-1/2 shadow-[-10px_0_30px_rgba(0,0,0,0.5)] border-l border-[#c5a85c]/40 flex items-center justify-start transition-all duration-[1600ms] ease-out-cubic origin-right"
+        :style="opening ? 'transform: perspective(1600px) rotateY(110deg) scale(0.98); opacity: 0; filter: brightness(0.3);' : 'transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1;'"
+        style="background: linear-gradient(135deg, #321c08 0%, #150a01 100%);"
       >
-        <div class="w-px h-1/2 bg-[#c5a85c]/20"></div>
+        <!-- Gold Frame Border on Right Door -->
+        <div class="absolute inset-4 sm:inset-6 border-[3px] border-double border-[#c5a85c]/30 pointer-events-none rounded-sm"></div>
+        <div class="absolute top-8 right-8 text-[#c5a85c]/20 w-16 h-16 transform rotate-90">
+          <svg viewBox="0 0 100 100" class="w-full h-full fill-current"><path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" /></svg>
+        </div>
+        <div class="absolute bottom-8 right-8 text-[#c5a85c]/20 w-16 h-16 transform rotate-180">
+          <svg viewBox="0 0 100 100" class="w-full h-full fill-current"><path d="M 0 0 L 40 0 C 35 15 15 35 0 40 Z" /></svg>
+        </div>
       </div>
       
-      <!-- Center Seal / Tap to Open -->
+      <!-- Majestic Golden Moonstone/Brass Handle Seal -->
       <div 
         @click="openInvitation" 
         class="relative z-10 flex flex-col items-center justify-center cursor-pointer group transition-all duration-700 ease-in-out"
-        :class="opening ? 'opacity-0 scale-150 rotate-12 blur-sm' : 'opacity-100 scale-100 rotate-0'"
+        :class="opening ? 'opacity-0 scale-150 rotate-12 blur-md' : 'opacity-100 scale-100 rotate-0'"
       >
-        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#c5a85c] text-white flex items-center justify-center shadow-[0_10px_30px_rgba(197,168,92,0.3)] group-hover:scale-110 transition-transform duration-300 border-4 border-white/80">
-          <span class="font-yatra text-4xl sm:text-5xl shadow-sm">{{ initials }}</span>
+        <!-- Traditional Royal Door Knocker / Brass Emblem -->
+        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-[#e5c57d] via-[#b08b35] to-[#7f601b] text-white flex items-center justify-center shadow-[0_15px_35px_rgba(0,0,0,0.6)] group-hover:scale-110 transition-transform duration-300 border-4 border-[#fff5dd]/80 relative">
+          <!-- Outer radial glowing lines -->
+          <div class="absolute inset-0.5 rounded-full border-2 border-dashed border-[#ffe099]/40 animate-[spin_20s_linear_infinite]"></div>
+          <!-- Ring door handle ornament inside -->
+          <div class="w-20 h-20 rounded-full border-4 border-[#fff2d1]/30 flex items-center justify-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)]">
+            <span class="font-yatra text-4xl sm:text-5xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] text-[#fffbf2]">{{ initials }}</span>
+          </div>
         </div>
-        <p class="mt-6 text-[#c5a85c] font-sinhala-serif font-semibold tracking-[0.2em] uppercase text-sm sm:text-base animate-pulse group-hover:animate-none">ඇරයුම් පත විවෘත කරන්න</p>
+        <div class="mt-8 bg-black/40 px-6 py-2 rounded-full border border-[#c5a85c]/30 backdrop-blur-sm transition-colors group-hover:bg-[#c5a85c]/20">
+          <p class="text-[#fefcf9] font-sinhala-serif font-semibold tracking-[0.22em] uppercase text-sm sm:text-base animate-pulse group-hover:animate-none">මංගල සභාවට පිවිසෙන්න</p>
+        </div>
       </div>
     </div>
 
@@ -513,7 +538,7 @@ const openInvitation = () => {
     nextTick(() => {
       initScrollAnimations()
     })
-  }, 1000)
+  }, 1600) // Match the 1600ms duration of the royal palace gates
 }
 
 // Fetch Invitation Data
@@ -577,7 +602,7 @@ const formattedSinhalaTime = computed(() => {
 })
 
 const formattedEndTime = computed(() => {
-  // Traditional Sinhala cards end in late afternoon, usually 3.30 PM. We can estimate event duration to be 6 hours or parse
+  // Traditional Sinhala cards end in late afternoon, usually 3.30 PM. We can estimate event duration to be 6.5 hours
   const end = new Date(eventDateObj.value.getTime() + 6.5 * 60 * 60 * 1000)
   let hours = end.getHours()
   let minutes = end.getMinutes()
