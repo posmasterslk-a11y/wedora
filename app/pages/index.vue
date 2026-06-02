@@ -1,6 +1,6 @@
 <template>
   <layout-admin-layout>
-    <div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-6 lg:px-8 relative">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
           <h1 class="text-2xl font-semibold leading-6 text-gray-900 dark:text-white">My Invitations</h1>
@@ -62,8 +62,8 @@
                         <span class="sm:hidden">Edit</span>
                       </router-link>
 
-                      <!-- Delete Invite -->
-                      <button @click="deleteInvite(invite.id)" class="text-gray-500 hover:text-red-500 transition-colors mr-4 inline-flex items-center" title="Delete Invitation">
+                      <!-- Delete Invite (Triggers modern custom modal) -->
+                      <button @click="confirmDelete(invite.id, invite.couple_names)" class="text-gray-500 hover:text-red-500 transition-colors mr-4 inline-flex items-center" title="Delete Invitation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -109,6 +109,51 @@
           </div>
         </div>
       </div>
+
+      <!-- Modern Premium Custom Delete Confirmation Modal Overlay -->
+      <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 transition-all duration-300">
+        <!-- Modal Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 dark:border-gray-700 transform scale-100 transition-transform duration-300">
+          <div class="flex flex-col items-center text-center">
+            
+            <!-- Glowing Warning Danger Icon -->
+            <div class="w-16 h-16 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-500 dark:text-red-400 mb-4 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+              <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Delete Invitation?</h3>
+            
+            <!-- Description -->
+            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-xs mb-6">
+              Are you sure you want to permanently delete the invitation for <strong class="text-gray-900 dark:text-white">{{ deletingInviteName }}</strong>? All associated RSVPs will be lost forever.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex items-center gap-3 w-full">
+              <!-- Cancel Button -->
+              <button 
+                @click="cancelDelete" 
+                class="flex-1 py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+              >
+                Cancel
+              </button>
+              
+              <!-- Confirm Delete Button -->
+              <button 
+                @click="executeDelete" 
+                class="flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 shadow-lg shadow-red-500/25 transition-all duration-300"
+              >
+                Delete
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </layout-admin-layout>
 </template>
@@ -125,6 +170,11 @@ const user = ref<any>(null)
 
 const invitations = ref<any[]>([])
 const pending = ref(true)
+
+// Modern Custom Delete Modal States
+const showDeleteModal = ref(false)
+const deletingInviteId = ref<string | null>(null)
+const deletingInviteName = ref<string>('')
 
 const fetchInvitations = async () => {
   pending.value = true
@@ -162,18 +212,38 @@ const copyLink = (id: string) => {
     .catch(err => console.error('Failed to copy: ', err))
 }
 
-const deleteInvite = async (id: string) => {
-  if (!confirm("Are you sure you want to delete this invitation? All associated RSVPs will also be permanently deleted.")) return
+// Trigger Custom Delete Modal
+const confirmDelete = (id: string, coupleNames: string) => {
+  deletingInviteId.value = id
+  deletingInviteName.value = coupleNames
+  showDeleteModal.value = true
+}
+
+const cancelDelete = () => {
+  showDeleteModal.value = false
+  deletingInviteId.value = null
+  deletingInviteName.value = ''
+}
+
+// Execute Supabase delete
+const executeDelete = async () => {
+  if (!deletingInviteId.value) return
   
   try {
     const { error } = await supabase
       .from('invitations')
       .delete()
-      .eq('id', id)
+      .eq('id', deletingInviteId.value)
       
     if (error) throw error
-    alert("Invitation deleted successfully!")
-    await fetchInvitations() // Refresh the list
+    
+    // Close modal
+    showDeleteModal.value = false
+    deletingInviteId.value = null
+    deletingInviteName.value = ''
+    
+    // Refresh list
+    await fetchInvitations()
   } catch (error: any) {
     console.error('Error deleting invitation:', error)
     alert('Error deleting invitation: ' + error.message)
